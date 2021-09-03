@@ -5,7 +5,7 @@ nltk.download('stopwords')
 from nltk.corpus import stopwords
 import matplotlib.pyplot as plt
 
-#Using urllib library to read SpaceX wikipedia page
+#reading spaceex wikipedia page by using urllib
 
 response = urllib.request.urlopen('https://en.wikipedia.org/wiki/SpaceX')
 html =  response.read()
@@ -16,39 +16,41 @@ text = soup.get_text(strip = True)
 tokens = [t for t in text.split()]
 clean_tokens = tokens[:]
 
-#Using NLTKs Frequency Distribution to count the word frequency
+#Obtaining high frequency words using NLP Frequency distribution
 frequency = nltk.FreqDist(tokens)
 keys =[]
 values = []
 
 for key,val in frequency.items():
-    #Printing Values whose frequency is greater than 5
+    # Obtaining values with word frequency greater than5
     if val>5:
         print(str(key) + ':' +str(val))
         keys.append(key)
         values.append(val)
     else:
         tokens.remove(key)
-
-#Plotting graph without removing stopwords
+        
+#Graph with stopwords
 frequency.plot(20,cumulative= False)
 
-#After removal of stop words
+#Ignoring stop words
 for token in tokens:
-    #Removing Tokens which have digits
+    #Ignoring integers
     if str(token).isdigit():
         clean_tokens.remove(token)
-    #Removing English language Stopwords
+    #Ignoring Stopwords
     if token in stopwords.words('english'):
         clean_tokens.remove(token)
 
 #Calculating Frequency after removing stopwords
 final = nltk.FreqDist(clean_tokens)
 
-#Plotting first 10 high distribution words
+
+#Calculating Frequency after removing stopwords
 final.plot(10,cumulative= False)
 
-#Plotting Bar graph as other form of frequency visualization
+
+#Plotting first 10 high distribution words
 plt.bar(keys[0:10], values[0:10], color='green')
 plt.show()
 
